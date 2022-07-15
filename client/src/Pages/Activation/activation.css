@@ -1,0 +1,39 @@
+.activation-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 75vh;
+}
+
+.activation-success {
+    padding: 4rem 2rem;
+    box-shadow: var(--primary-card-shadow);
+    text-align: center;
+}
+
+.activation-text {
+    max-width: 30ch;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.activation-btn {
+    text-decoration: none;
+}
+.activation-icon{
+    font-size: 3rem;
+    color: var(--primary-orange);
+}
+.activation-icon-wrap{ 
+    margin-bottom: 1rem;
+}
+
+@media screen and (max-width:576px) {
+    .activation-text, .activation-btn{
+        font-size: 1rem;
+    }
+    .activation-success{
+        padding: 4rem 1rem;
+    }
+}

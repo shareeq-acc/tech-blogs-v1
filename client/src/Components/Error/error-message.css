@@ -1,0 +1,33 @@
+/* No Content */
+.no-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.no-content-message {
+    font-size: 2rem;
+    text-align: center;
+}
+
+@media screen and (max-width:1000px) {
+    .no-content-message {
+        font-size: 1.75rem;
+    }
+}
+@media screen and (max-width:750px) {
+    .no-content-message {
+        font-size: 1.5rem;
+    }
+}
+@media screen and (max-width:620px) {
+    .no-content-message {
+        font-size: 1.25rem;
+    }
+}
+@media screen and (max-width:500px) {
+    .no-content-message {
+        font-size: 1rem;
+    }
+}

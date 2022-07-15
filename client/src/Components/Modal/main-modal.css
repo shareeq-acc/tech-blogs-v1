@@ -1,0 +1,6 @@
+.modal-btn{
+    padding: 0.4rem 1.5rem;
+}
+.modal-action-container > :nth-child(1){
+    margin-right: 1rem;
+}

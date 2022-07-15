@@ -1,0 +1,134 @@
+.setup-main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+    width: 100vw;
+}
+
+.setup-wrap {
+    position: relative;
+    text-align: center;
+    flex-basis: 55%;
+}
+
+.setup-title {
+    text-align: center;
+    margin-bottom: 4.5rem;
+}
+
+.move-icons {
+    cursor: pointer;
+    color: var(--primary-orange);
+    font-size: 2rem;
+}
+
+.next-icon,
+.previous-icon {
+    position: absolute;
+    top: 3rem;
+}
+
+.disable-btn {
+    color: #ff780073;
+    cursor: auto;
+}
+
+.next-icon {
+    right: 0;
+}
+
+.previous-icon {
+    left: 0;
+}
+
+.setup-input {
+    margin-top: 2rem;
+    width: 75%;
+}
+
+.setup-input::placeholder {
+    font-size: 1rem;
+}
+
+/* Stage 2 */
+.setup-instruction {
+    margin-bottom: 1.5rem;
+}
+
+.fade-text {
+    color: #0000007a;
+}
+
+.file-upload-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.file-upload-input {
+    position: absolute;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.profile-upload-wrap {
+    position: relative;
+    border: 3px dotted var(--primary-orange);
+}
+
+.file-name {
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.file-message-wrap {
+    text-align: center;
+    padding: 2rem 3rem;
+}
+
+.file-message {
+    font-weight: 300;
+    text-transform: uppercase;
+    color: var(--primary-orange);
+}
+.setup-btn{
+    font-size: 1.05rem;
+    padding: 0.6rem 1.5rem;
+    text-transform: uppercase;
+    margin-top: 3rem;
+}
+
+
+@media screen and (max-width:1000px){
+    .setup-wrap{
+        flex-basis: 70%;
+    }
+    .setup-input{
+        width: 90%;
+    }
+}
+@media screen and (max-width:780px){
+    .setup-wrap{
+        flex-basis: 80%;
+    }
+    /* .setup-main-wrapper{
+        height: 65vh;
+    } */
+}
+@media screen and (max-width:576px){
+    .setup-wrap{
+        flex-basis: 90%;
+    }
+    .setup-input{
+        width: 100%;
+    }
+}

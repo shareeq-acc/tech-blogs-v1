@@ -1,0 +1,19 @@
+.short-blog-link{
+    text-decoration: none;
+    color: var(--primary-black);
+}
+.short-blog-card{
+    margin-bottom: 1rem
+}
+.short-blog-action{
+    display: flex;
+    margin-top: 0.3rem;
+}
+.action-date{
+    margin-right: 5%;
+}
+.blog-action-icon{
+    color: var(--primary-black);
+    margin-left: 1rem;
+    cursor: pointer;
+}

@@ -1,0 +1,15 @@
+.user-blog-page{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+
+}
+
+@media screen and (max-width:780px) {
+
+    .user-blog-page{
+      justify-content: center;
+        
+    
+    }
+}
