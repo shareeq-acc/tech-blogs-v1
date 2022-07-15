@@ -38,10 +38,10 @@ const PORT = process.env.PORT || 8000;
 dbConnection();
 
 // --------------------------deployment------------------------------
-const __dirname = path.resolve();
+// const __dirname = path.resolve();
 if (process.env.NODE_ENV === "production") {
-  // app.use(express.static(path.join(__dirname, "/client/build")));
-  app.use(express.static("/client/build"));
+  app.use(express.static(path.join(__dirname, "client", "build")));
+  // app.use(express.static("/client/build"));
   app.get("*", (req, res) =>
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
   );
@@ -51,6 +51,6 @@ if (process.env.NODE_ENV === "production") {
 
 // Routes
 app.listen(PORT, () => {
-  console.log("Update 1")
+  console.log("Update 2")
   console.log(`Server is Running on Port ${PORT}`);
 });
