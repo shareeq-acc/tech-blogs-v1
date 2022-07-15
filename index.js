@@ -3,7 +3,8 @@ import "dotenv/config";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import bodyParser from "body-parser";
-import path from "path"
+import path from 'path';
+const __dirname = path.resolve();
 
 
 // Routes
@@ -38,7 +39,6 @@ const PORT = process.env.PORT || 8000;
 dbConnection();
 
 // --------------------------deployment------------------------------
-// const __dirname = path.resolve();
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client", "build")));
   // app.use(express.static("/client/build"));
