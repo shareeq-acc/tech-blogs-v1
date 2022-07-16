@@ -6,6 +6,7 @@ const capitalizeFirstLetter = (string) => {
 const sendEmail = async (name, email, token) => {
     console.log("Name is", name)
     console.log("Email is", email)
+    console.log("Client url", process.env.CLIENT_URL)
     const htmlContent = `
     <div style="font-family: sans-serif;">
         <h2>Email Verfication</h2>
