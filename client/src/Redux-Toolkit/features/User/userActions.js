@@ -44,9 +44,17 @@ export const registerUserAsync = createAsyncThunk(
             const response = await register(userDetails)
             // console.log(response.data)
             thunkAPI.dispatch(registerUser(response.data))
-            const verificationEmail = await confirmationEmail(response?.data?.id)
-            thunkAPI.dispatch(setValidation(verificationEmail?.data?.nextValidation))
+            const verificationEmail = confirmationEmail(response?.data?.id)
+            toast.promise(
+                verificationEmail,
+                {
+                    pending: 'Sending Email',
+                    success: 'Successfully Sent Email',
+                    error: 'Failed to Send Email'
+                }
+            )
             thunkAPI.dispatch(formFulfilled())
+            thunkAPI.dispatch(setValidation(verificationEmail?.data?.nextValidation))
         } catch (error) {
             // console.log(error.response.data)
             if (error?.response?.data) {
