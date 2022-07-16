@@ -121,6 +121,7 @@ export const sendEmail = createAsyncThunk(
         } catch (error) {
             // console.log(error.response.data)
             if (error?.response?.data?.alreadyValidated) {
+                toast.info("You Are Already Validated")
                 thunkAPI.dispatch(alreadyValidated())
             }
             if (!error?.response || error?.response?.data?.serverError) {

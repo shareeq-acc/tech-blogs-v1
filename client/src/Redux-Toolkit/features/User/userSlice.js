@@ -96,6 +96,7 @@ export const userSlice = createSlice({
             state.status.emailValidation = "pending"
         },
         setValidation: (state, action) => {
+            console.log(action.payload)
             state.data.validation.validated = false
             state.data.validation.nextValidation = action.payload
             state.status.emailValidation = "completed"
