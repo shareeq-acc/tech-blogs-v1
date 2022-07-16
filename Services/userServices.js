@@ -23,9 +23,7 @@ export const findOneUser = async (field, data) => {
 
 export const createUser = async (user) => {
   try {
-    // console.log(user);
     const userDetails = await user.save();
-    // console.log(userDetails)
     return {
       error: false,
       id: userDetails._id
@@ -61,16 +59,13 @@ export const findUser = async (id) => {
       return false;
     }
   } catch (error) {
-    // return {
-    //   serverError: true,
-    // };
-    throw new Error("Server Error");
+    return {
+      serverError: true,
+    };
   }
 };
 export const updateUser = async (id, data) => {
   try {
-    console.log("Id is ", id)
-    console.log("data: ", data)
     const updatedSuccess = await User.findByIdAndUpdate(id, data);
     if (updatedSuccess) {
       return true;
@@ -109,7 +104,6 @@ export const storeUserSetupInfo = async (id, { expertise, description, fileUrl }
     throw new Error("Server Error");
   }
 }
-
 export const setupEmail = async (id) => {
   try {
     const nextTimer = Date.now() + 120000

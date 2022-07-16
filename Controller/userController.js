@@ -317,7 +317,7 @@ export const emailUser = async (req, res) => {
     }
     const setTimer = await setupEmail(id)
     if (!setTimer) {
-      res.status(500).json({
+      return res.status(500).json({
         serverError: true,
         success: false,
       });

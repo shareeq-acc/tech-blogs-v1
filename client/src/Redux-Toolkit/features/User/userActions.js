@@ -116,6 +116,7 @@ export const sendEmail = createAsyncThunk(
                     error: 'Failed to Send Email'
                 }
             )
+            console.log(response.data)
             thunkAPI.dispatch(setValidation(response?.data?.nextValidation))
             thunkAPI.dispatch(formFulfilled())
         } catch (error) {
