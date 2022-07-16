@@ -1,6 +1,5 @@
 import axios from "axios";
 import setUser from "../../Helpers/setUser";
-const url = "http://localhost:8000";
 
 const axiosPrivate = axios.create({
   headers: { "Content-Type": "application/json" },
@@ -29,7 +28,7 @@ axiosPrivate.interceptors.response.use(
       prevRequest.sent = true;
       // console.log("Sending Request to url")
       const refreshResponse = await axios.post(
-        `${url}/auth/refresh`,
+        `/auth/refresh`,
         {},
         { withCredentials: true }
       );
