@@ -129,13 +129,13 @@ export const createNewBlog = async (req, res) => {
   try {
     //  User from JWT Token
     const userId = req.user;
-
-    // File from Front-end
-    const file = req.file;
-    console.log(file)
     // Form Data
     const { title, description, content, tags, category, otherCategory } =
       req.body;
+    // File from Front-end
+    const file = req.file;
+    console.log(file)
+
 
     if (!userId) {
       return res.status(401).json({
@@ -216,7 +216,6 @@ export const createNewBlog = async (req, res) => {
         formError: newBlog.formError,
       });
     }
-
     res.status(201).json({
       message: "Successfully Created a New Blog",
       success: true,

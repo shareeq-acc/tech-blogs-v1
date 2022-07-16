@@ -6,6 +6,7 @@ const __dirname = path.resolve();
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     // cb(null, "Files");
+    console.log(file)
     console.log(path.join(__dirname, '..', 'Files'))
     cb(null, (path.join(__dirname, '..', 'Files',)));
   },
