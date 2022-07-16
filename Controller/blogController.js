@@ -132,6 +132,7 @@ export const createNewBlog = async (req, res) => {
 
     // File from Front-end
     const file = req.file;
+    console.log(file)
     // Form Data
     const { title, description, content, tags, category, otherCategory } =
       req.body;
@@ -172,7 +173,7 @@ export const createNewBlog = async (req, res) => {
       file,
       noFile: false,
     });
-    // console.log(validate);
+    console.log(validate);
     // Send Error if Validation Failed
     if (validate.error) {
       return res.status(400).json({
@@ -182,7 +183,7 @@ export const createNewBlog = async (req, res) => {
       });
     }
     const fileUpload = await uploadFile(file.path, process.env.BLOG_MAIN_IMAGE_UPLOAD_PRESET_CLOUDINARY);
-    // console.log(fileUpload);
+    console.log(fileUpload);
     if (fileUpload.serverError) {
       return res.status(500).json({
         success: false,
