@@ -107,7 +107,7 @@ export const sendEmail = createAsyncThunk(
     async (id, thunkAPI) => {
         try {
             thunkAPI.dispatch(emailPending())
-            const response = confirmationEmail(id)
+            const response = await confirmationEmail(id)
             toast.promise(
                 response,
                 {
