@@ -1,9 +1,13 @@
 import multer from "multer";
+import path from 'path';
+const __dirname = path.resolve();
 
 //Configuration for Multer
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "Files");
+    // cb(null, "Files");
+    cconsole.log(path.join(__dirname, '..', 'Files'))
+    cb(null, (path.join(__dirname, '..', 'Files',)));
   },
   filename: (req, file, cb) => {
     const ext = file.mimetype.split("/")[1];
@@ -12,8 +16,8 @@ const multerStorage = multer.diskStorage({
 });
 
 const uploads = multer({
-    storage: multerStorage,
-  });
-  
+  storage: multerStorage,
+});
+
 
 export default uploads;

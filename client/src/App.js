@@ -54,14 +54,14 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/blog/:id" element={<BlogDetail />} />
+        <Route path="/user/activate/:token" element={<Activation />} />
+        <Route path="/blog/user/:id" element={<UserBlog />} />
 
         {/* Private Routes */}
         <Route element={<RequireAuth />}>
           <Route path="/create" element={<CreateBlog />} />
           <Route path="/blog/edit/:id" element={<EditBlog />} />
-          <Route path="/blog/user/:id" element={<UserBlog />} />
           <Route path="/user/settings" element={<Profile />} />
-          <Route path="/user/activate/:token" element={<Activation />} />
           <Route path="/user/account-setup" element={<Setup />} />
         </Route>
 

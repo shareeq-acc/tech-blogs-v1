@@ -13,6 +13,7 @@
     flex-basis: 70%;
     padding: 0 1rem;
     border-left: 1px solid var(--primary-orange);
+    position: relative;
 }
 
 .sidebar-item {
