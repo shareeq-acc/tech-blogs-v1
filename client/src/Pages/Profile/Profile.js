@@ -7,11 +7,20 @@ import "./profile.css";
 const Profile = () => {
   const [currentTab, setCurrentTab] = useState("account")
   const [displayDeleteModal, setDisplayDeleteModal] = useState(false)
+  const [displayMenu, setDisplayMenu] = useState(false)
   const user = useSelector(state => state.user.data.login)
+
+  const handleMenuChange = () => {
+    let nextMenuValue = displayMenu
+    setDisplayMenu(!nextMenuValue)
+  }
   return <div className="profile profile-container main-container">
     {user &&
       <div className="profile-wrap">
-        <div className="sidebar">
+        <div className="profile-menu-icon-wrap">
+          <i className="fa-solid fa-ellipsis-vertical profile-menu-icon" onClick={handleMenuChange}></i>
+        </div>
+        <div className={`sidebar ${displayMenu ? "show-sidebar" : ""}`}>
           <ul className="sidebarlist">
             <li name="manage-blogs" className={`sidebar-item ${currentTab === "manage-blogs" ? "active" : ""}`} onClick={(e) => setCurrentTab("manage-blogs")}>Manage Blogs</li>
             <li name="account" className={`sidebar-item ${currentTab === "account" ? "active" : ""}`} onClick={(e) => setCurrentTab("account")}>Account</li>
@@ -28,6 +37,7 @@ const Profile = () => {
 };
 
 export default Profile;
+
 
 
 
