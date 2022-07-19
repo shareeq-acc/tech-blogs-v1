@@ -29,21 +29,21 @@ const multerStorage = multer.diskStorage({
     console.log("Directory is ", __dirname)
     console.log("file is (Multer)", file)
     console.log("File Path is ", fileDirectory)
-
-    if (!fs.existsSync(fileDirectory)) {
-      // fs.mkdirSync("../Files/images", { recursive: true });
-      console.log('Making Directory')
-      fs.mkdirSync(fileDirectory, { recursive: true }, (error) => {
-        if (error) {
-          console.log("Error is ", error)
-        } else {
-          console.log("Made a New File")
-        }
-      });
-    } else {
-      console.log("Directory Exists")
-    }
-    cb(null, (path.join(__dirname, '..', 'Files', "images")));
+    console.log(path.dirname(require.main.filename))
+    // if (!fs.existsSync(fileDirectory)) {
+    //   // fs.mkdirSync("../Files/images", { recursive: true });
+    //   console.log('Making Directory')
+    //   fs.mkdirSync(fileDirectory, { recursive: true }, (error) => {
+    //     if (error) {
+    //       console.log("Error is ", error)
+    //     } else {
+    //       console.log("Made a New File")
+    //     }
+    //   });
+    // } else {
+    //   console.log("Directory Exists")
+    // }
+    // cb(null, (path.join(__dirname, '..', 'Files', "images")));
     // cb(null, ("../Files"));
     // cb(null, (path.join(__dirname, '..', 'Files',)));
   },
