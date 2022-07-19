@@ -1,6 +1,7 @@
 import multer from "multer";
 import path from 'path';
 const __dirname = path.resolve();
+import store from "../Files"
 //Configuration for Multer
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -8,7 +9,8 @@ const multerStorage = multer.diskStorage({
     console.log("Directory is ", __dirname)
     console.log("file is (Multer)", file)
     console.log("File Path is ", (path.join(__dirname, '..', 'Files', "images")))
-    cb(null, (path.join(__dirname, '..', 'Files', "images")));
+    cb(null, ("../Files"));
+    // cb(null, (path.join(__dirname, '..', 'Files', "images")));
     // cb(null, (path.join(__dirname, '..', 'Files',)));
   },
   filename: (req, file, cb) => {
