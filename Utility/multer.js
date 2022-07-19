@@ -3,13 +3,14 @@ import path from 'path';
 const __dirname = path.resolve();
 //Configuration for Multer
 const multerStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    // cb(null, "Files");
-    console.log("file is (Multer)", file)
-    console.log("File Path is ", (path.join(__dirname, '..', 'Files')))
-    cb(null, "../Files");
-    // cb(null, (path.join(__dirname, '..', 'Files',)));
-  },
+  // destination: (req, file, cb) => {
+  //   // cb(null, "Files");
+  //   console.log("file is (Multer)", file)
+  //   console.log("File Path is ", (path.join(__dirname, '..', 'Files')))
+  //   cb(null, "../Files");
+  //   // cb(null, (path.join(__dirname, '..', 'Files',)));
+  // }
+  destination: require.main?.path + "/" + " Files/images/ ",
   filename: (req, file, cb) => {
     const ext = file.mimetype.split("/")[1];
     cb(null, `images/admin-${file.fieldname}-${Date.now()}.${ext}`);
