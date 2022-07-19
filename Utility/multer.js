@@ -1,7 +1,6 @@
 import multer from "multer";
 import path from 'path';
 const __dirname = path.resolve();
-import sample from "../Files"
 //Configuration for Multer
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
