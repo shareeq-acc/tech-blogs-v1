@@ -9,6 +9,7 @@
 .no-content-message {
     font-size: 2rem;
     text-align: center;
+    min-width: 15ch;
 }
 
 @media screen and (max-width:1000px) {

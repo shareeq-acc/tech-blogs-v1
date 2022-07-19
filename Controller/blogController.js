@@ -134,7 +134,7 @@ export const createNewBlog = async (req, res) => {
       req.body;
     // File from Front-end
     const file = req.file;
-    console.log(file)
+    console.log("file is", file)
 
 
     if (!userId) {
@@ -182,6 +182,7 @@ export const createNewBlog = async (req, res) => {
         formError: validate.form,
       });
     }
+    console.log("File PAth is ", file.path)
     const fileUpload = await uploadFile(file.path, process.env.BLOG_MAIN_IMAGE_UPLOAD_PRESET_CLOUDINARY);
     console.log(fileUpload);
     if (fileUpload.serverError) {
