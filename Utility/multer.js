@@ -12,7 +12,7 @@ const multerStorage = multer.diskStorage({
     console.log("Directory is ", __dirname)
     console.log("file is (Multer)", file)
     console.log("File Path is ", (path.join(__dirname, '..', 'Files', "images")))
-    fs.access(fileDirectory, (error) => {
+    fs.access(__dirname, (error) => {
       if (error) {
         console.log("Directory does not exist.")
       } else {
