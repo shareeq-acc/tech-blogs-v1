@@ -6,21 +6,38 @@ const __dirname = path.resolve();
 
 
 const multerStorage = multer.diskStorage({
+  // destination: (req, file, cb) => {
+  //   // cb(null, "Files");
+  //   const fileDirectory = path.join(__dirname, '..', 'Files', "images")
+  //   console.log("Directory is ", __dirname)
+  //   console.log("file is (Multer)", file)
+  //   console.log("File Path is ", (path.join(__dirname, '..', 'Files', "images")))
+  //   fs.access(__dirname, (error) => {
+  //     if (error) {
+  //       console.log("Directory does not exist.")
+  //     } else {
+  //       console.log("Directory exists.")
+  //     }
+  //   })
+  //   // cb(null, ("../Files"));
+  //   // cb(null, (path.join(__dirname, '..', 'Files', "images")));
+  //   // cb(null, (path.join(__dirname, '..', 'Files',)));
+  // },
   destination: (req, file, cb) => {
     // cb(null, "Files");
     const fileDirectory = path.join(__dirname, '..', 'Files', "images")
     console.log("Directory is ", __dirname)
     console.log("file is (Multer)", file)
-    console.log("File Path is ", (path.join(__dirname, '..', 'Files', "images")))
-    fs.access(__dirname, (error) => {
-      if (error) {
-        console.log("Directory does not exist.")
-      } else {
-        console.log("Directory exists.")
-      }
-    })
+    console.log("File Path is ", fileDirectory)
+
+    if (!fs.existsSync(fileDirectory)) {
+      fs.mkdirSync(fileDirectory, { recursive: true });
+      console.log("Made a New File")
+    } else {
+      console.log("Directory Exists")
+    }
+    cb(null, (path.join(__dirname, '..', 'Files', "images")));
     // cb(null, ("../Files"));
-    // cb(null, (path.join(__dirname, '..', 'Files', "images")));
     // cb(null, (path.join(__dirname, '..', 'Files',)));
   },
   filename: (req, file, cb) => {
