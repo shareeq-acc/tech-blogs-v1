@@ -31,7 +31,7 @@ const multerStorage = multer.diskStorage({
     console.log("File Path is ", fileDirectory)
 
     if (!fs.existsSync(fileDirectory)) {
-      fs.mkdirSync(fileDirectory, { recursive: true });
+      fs.mkdirSync("../Files/images", { recursive: true });
       console.log("Made a New File")
     } else {
       console.log("Directory Exists")
