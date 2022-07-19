@@ -8,7 +8,8 @@ const multerStorage = multer.diskStorage({
     // cb(null, "Files");
     console.log("file is (Multer)", file)
     console.log("File Path is ", (path.join(__dirname, '..', 'Files')))
-    cb(null, (path.join(__dirname, '..', 'Files',)));
+    cb(null, "../../Files");
+    // cb(null, (path.join(__dirname, '..', 'Files',)));
   },
   filename: (req, file, cb) => {
     const ext = file.mimetype.split("/")[1];
