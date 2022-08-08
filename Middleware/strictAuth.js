@@ -1,15 +1,16 @@
 import jwt from "jsonwebtoken";
-const strictAuthentication = (req, res, next) => {
-  const accessToken = req.header("Authorization")?.split(" ")[1];
-  // const accessToken = req.cookies["accessToken"];
 
-  // console.log("AccessTokein is ", accessToken)
+// This Middleware authenticates User by decoding the JWT Token and attaching the userId in req
+// It throws an error or sends back a Response if Token is not Present
+const strictAuthentication = (req, res, next) => {
+  // Get AccessToken - Format : Bearer ${Token}
+  const accessToken = req.header("Authorization")?.split(" ")[1];
   if (accessToken) {
-    console.log("access Token is Present");
     jwt.verify(accessToken, process.env.TOKEN_SECRET, (error, data) => {
       if (data) {
         req.user = data.data;
       } else {
+        // Token is Expired
         return res.status(401).json({
           error: true,
           success: false,
@@ -18,6 +19,7 @@ const strictAuthentication = (req, res, next) => {
       }
     });
   } else {
+    // Token is not Present
     return res.status(401).json({
       error: true,
       success: false,

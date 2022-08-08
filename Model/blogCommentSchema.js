@@ -5,8 +5,8 @@ const BlogCommentsSchema = new Schema({
   text: {
     type: String,
     required: [true, "Comment cannot be empty"],
-    minlength: [3, "Comment should be atleast 3 Characters"],
-    maxlength: [150, "Comment cannot be more than 150 Characters"],
+    minlength: [1, "Please Enter Comment"],
+    maxlength: [500, "Comment cannot be more than 500 Characters"],
   },
   blogID: {
     type: mongoose.SchemaTypes.ObjectId,
@@ -15,7 +15,7 @@ const BlogCommentsSchema = new Schema({
     required: true,
     trim: true,
   },
-  creatorID: {
+  creatorId: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: "User",
     maxlength: [30, "Comment CreatorID cannot be more than 30 Characters"],
@@ -43,7 +43,6 @@ const BlogCommentsSchema = new Schema({
   },
   updatedAt: {
     type: Date,
-    value: null,
     maxlength: [100, "Date cannot not be more than 100 Characters"],
   },
 });
@@ -53,5 +52,6 @@ BlogCommentsSchema.pre("findOneAndUpdate", function (next) {
   this.updatedAt = Date.now();
   next();
 });
+
 const BlogComments = mongoose.model("BlogComments", BlogCommentsSchema);
 export default BlogComments;

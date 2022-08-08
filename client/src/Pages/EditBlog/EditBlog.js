@@ -21,7 +21,6 @@ const EditBlog = () => {
   }, [dispatch]);
 
   const editBlog = (formData) => {
-    // dispatch(updateBlog(id, formData, navigate));
     dispatch(updateBlogAsync({ blogId: id, blog: formData, navigate }))
   };
   return (

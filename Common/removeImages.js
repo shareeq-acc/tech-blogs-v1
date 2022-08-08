@@ -6,6 +6,7 @@ const __dirname = path.dirname(__filename);
 
 const directory = "../files/images";
 
+// This Function Removes The Files/Images from the server once they are uploaded to the 3rd Party Cloud Storage (even if there is an error uploading, since the image would be resent) 
 const destroyFiles = () => {
   fs.readdir(path.join(__dirname, directory), (err, files) => {
     if (err) throw err;

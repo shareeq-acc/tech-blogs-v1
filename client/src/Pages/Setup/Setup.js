@@ -7,13 +7,17 @@ import { setStage } from "../../Redux-Toolkit/features/User/userSlice"
 import Loader from "../../Components/Loader/Loader"
 import "./setup.css"
 const Setup = () => {
+
   const step = useSelector(state => state.user.data.setupStage)
   const errors = useSelector(state => state.user.errors.setup)
   const status = useSelector(state => state.user.status.setup)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+
   const [file, setFile] = useState(null)
   const [setupInput, setSetupInput] = useState({ expertise: "", description: "" })
+
   const handleSetupSubmit = () => {
     const formData = new FormData()
     formData.append("expertise", setupInput.expertise)
@@ -23,15 +27,18 @@ const Setup = () => {
     }
     dispatch(storeSetupInfo({ data: formData, navigate }))
   }
+
   return (
     <div className="setup-main-wrapper">
-      {status === "pending" &&
+      {status === "pending" && 
         <div className="loader-back">
           <Loader />
         </div>
       }
       <div className="setup-wrap">
+        {/* if Internal Server Erorr */}
         {status === "rejected" && errors.serverError && <div>Something Went Wrong Please Try Again</div>}
+        
         <span className="next-icon" onClick={() => {
           if (step === 1) {
             dispatch(setStage(2))
@@ -43,6 +50,8 @@ const Setup = () => {
           }
         }}><i className={`fa-solid fa-angles-left move-icons ${step === 1 ? "disable-btn" : ""}`}></i></span>
         <h1 className="setup-title">Complete Your Profile</h1>
+
+        {/* Stage 1 : Text Fields */}
         {step === 1 && <div className="setup-first-stage">
           <input className="setup-input form-input" placeholder="Please Enter Your Expertise e.g Software Developer" onChange={(e) => setSetupInput({ ...setupInput, expertise: e.target.value })} value={setupInput.expertise} />
           {errors.expertise && <ErrorField text={errors.expertise} />}
@@ -50,6 +59,8 @@ const Setup = () => {
           {/* <input className="setup-input form-input" placeholder="Please Enter description about yourself" onChange={(e) => setSetupInput({ ...setupInput, description: e.target.value })} value={setupInput.description}/> */}
           {errors.description && <ErrorField text={errors.description} />}
         </div>}
+
+        {/* Step 2 : Profile Picture Upload Content */}
         {step === 2 &&
           <div className="step-second-stage">
             <div className="file-upload-wrap">
@@ -63,7 +74,7 @@ const Setup = () => {
                 </div>
               </div>
               {file && <p className="file-name">{file.name}</p>}
-              {errors.file && <ErrorField text={errors.file} />}
+              {errors?.profilePicture && <ErrorField text={errors.profilePicture} />}
             </div>
             <button className="modal-btn setup-btn" onClick={handleSetupSubmit}>Submit</button>
           </div>

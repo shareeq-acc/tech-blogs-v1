@@ -195,6 +195,11 @@ ol {
 } */
 
 
+@media screen and (max-width:1275px) {
+    .sub-category{
+        margin: 1rem 0;
+    }
+}
 @media screen and (max-width:960px) {
     .blog-form {
         flex-basis: 70%;
@@ -217,18 +222,14 @@ ol {
     }
 }
 
-@media screen and (max-width:600px) {
-    .other-category-input {
-        margin-top: 0.75rem;
-    }
-}
-
 @media screen and (max-width:576px) {
     .blog-form {
         margin: 2rem;
         flex-basis: 100%;
     }
-
+    .category-selection{
+        margin-left: 0;
+    }
     .file-category-wrap {
         flex-direction: column;
         align-items: flex-start;
@@ -239,5 +240,4 @@ ol {
         margin-left: 0.5rem;
         margin-bottom: 0.5rem;
     }
-
 }

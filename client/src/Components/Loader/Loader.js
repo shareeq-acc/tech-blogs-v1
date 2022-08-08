@@ -1,9 +1,9 @@
 import "./loader.css"
 
-const Loader = () => {
+const Loader = ({ className }) => {
     return (
         <div className="loader-wrapper">
-            <div className="loader"></div>
+            <div className={`loader ${className ? className : ""}`}></div>
         </div>
     )
 }

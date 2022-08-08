@@ -5,9 +5,8 @@ const { Schema } = mongoose;
 const blogCommentReplies = new Schema({
   text: {
     type: String,
-    required: [true, "Comment cannot be empty"],
-    minlength: [3, "Comment should be atleast 3 Characters"],
-    maxlength: [150, "Comment cannot be more than 150 Characters"],
+    required: [true, "Comment Reply cannot be empty"],
+    maxlength: [500, "Comment Reply cannot be more than 500 Characters"],
   },
   creatorId: {
     type: mongoose.SchemaTypes.ObjectId,

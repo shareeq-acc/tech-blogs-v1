@@ -7,12 +7,16 @@ import {
   deleteComment,
   updateBlogComment,
   likeComment,
+  getBlogComments,
 } from "../Controller/blogCommentsController.js";
 
 // Get all Comments (Only for Production Purpose)
 router.get("/", getComments);
 
-// Create a New Comment
+// Get all Comments of a Blog (Does Not Require Authentication)
+router.get("/:id", getBlogComments)
+
+// Create a New Comment (Requires Authentication)
 router.post("/create/:id", authentication, createComment);
 
 // Delete an Existing Comment (Requires Authentication)
@@ -23,4 +27,5 @@ router.put("/update/:commentId", authentication, updateBlogComment);
 
 // Like an Existing Comment (Requires Authentication)
 router.put("/like/:id", authentication, likeComment);
+
 export default router;

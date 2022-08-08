@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 import { findUser } from "../Services/userServices.js";
 
 export const refreshToken = async (req, res) => {
-  console.log("Refreshing Token");
   try {
     let payload;
     const refreshToken = req.cookies["refreshToken"];
@@ -22,7 +21,6 @@ export const refreshToken = async (req, res) => {
           payload = data;
         }
         if (error) {
-          // console.log("Error, Jwt not Valid");
           return res.status(401).json({
             auth: false,
             message: "Please Login to Continue",
@@ -31,6 +29,7 @@ export const refreshToken = async (req, res) => {
         }
       }
     );
+    // Find User using JWT Payload
     const verifyUser = await findUser(payload.data);
     if (!verifyUser) {
       return res.status(401).json({

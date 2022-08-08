@@ -6,9 +6,6 @@ import { logoutUserAsync } from "../../Redux-Toolkit/features/User/userActions"
 
 import "./navbar.css";
 const Navbar = () => {
-  // const loading = useSelector((state) => state.user.loading);
-  // const user = useSelector((state) => state.user.user);
-  // const loading = useSelector((state) => state.user.isloading);
   const user = useSelector(state => state.user.data)
   const status = useSelector(state => state.user.status.userLogin)
   const [toggleItems, Toggle] = useState(false);

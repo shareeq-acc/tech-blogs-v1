@@ -34,7 +34,9 @@ body {
   /* font-family: 'Quicksand', sans-serif; */
   font-family: 'Poppins', sans-serif;
 }
-
+.App{
+  overflow: hidden !important;
+}
 textarea {
   resize: none;
 }

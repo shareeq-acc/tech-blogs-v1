@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-
-
-
 import { formatToCurrentDate } from "../../Helpers/date";
 import Button from "../Button/Button";
-
 import "./form.css";
 import { loginUserAsync, registerUserAsync } from "../../Redux-Toolkit/features/User/userActions";
-import { removeUserFormErrors, resetFormState } from "../../Redux-Toolkit/features/User/userSlice";
-// import { formErrors } from "../../Redux-Toolkit/features/User/userSlice";
+import { resetFormState } from "../../Redux-Toolkit/features/User/userSlice";
+
 
 const Form = ({ title, method }) => {
   const dispatch = useDispatch();
@@ -78,7 +74,7 @@ const Form = ({ title, method }) => {
   };
   return (
     <div className="form-wrap">
-      <form className="form" autocomplete="off">
+      <form className="form" autoComplete="off">
         <h1 className="form-title">{title}</h1>
         {status !== "pending" && errors.main && (
           <div className="form-errors form-message form-field-wrap">
@@ -140,7 +136,7 @@ const Form = ({ title, method }) => {
           />
           <i className="fa-solid fa-envelope form-icon"></i>
           {errors?.email && <p className="error-field-text">{`*${errors.email}*`}</p>}
-          {/* {errors?.email && <div className="error-field-text"><i className="fa-solid fa-circle-exclamation form-warning-icon"></i><p className="">{errors.email}</p></div>} */}
+
         </div>
         <div className="form-field-wrap">
           <input

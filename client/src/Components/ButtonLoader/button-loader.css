@@ -1,0 +1,14 @@
+.button-loader {
+  cursor: pointer;
+  background-color: var(--primary-orange);
+  border: none;
+  border-radius: 7px;
+  color: white;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+}
+
+.button-loader-icon {
+  animation: fa-spin 2s infinite linear;
+  margin-right: 0.5rem;
+}

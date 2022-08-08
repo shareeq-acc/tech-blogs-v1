@@ -20,8 +20,10 @@ const Profile = () => {
         <div className="profile-menu-icon-wrap">
           <i className="fa-solid fa-ellipsis-vertical profile-menu-icon" onClick={handleMenuChange}></i>
         </div>
+        {/* Toggle Sidebar on Mobile Screen */}
         <div className={`sidebar ${displayMenu ? "show-sidebar" : ""}`}>
           <ul className="sidebarlist">
+            {/* Toggle Active Classes */}
             <li name="manage-blogs" className={`sidebar-item ${currentTab === "manage-blogs" ? "active" : ""}`} onClick={(e) => setCurrentTab("manage-blogs")}>Manage Blogs</li>
             <li name="account" className={`sidebar-item ${currentTab === "account" ? "active" : ""}`} onClick={(e) => setCurrentTab("account")}>Account</li>
             <li name="password" className={`sidebar-item ${currentTab === "password" ? "active" : ""}`} onClick={(e) => setCurrentTab("password")}>Change Password</li>

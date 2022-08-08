@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { logoutUserAsync, loginUserAsync, registerUserAsync, checkUserAsync, showUserProfileData, changeUserPasswordAsync } from './userActions';
+import { logoutUserAsync, loginUserAsync, registerUserAsync, checkUserAsync, showUserProfileData, changeUserPasswordAsync, sendEmail } from './userActions';
 const initialState = {
     status: {
+        // Status are either idle/pending/completed
         Form: "idle",
         userLogin: "idle",
         userRegister: false,
@@ -58,23 +59,27 @@ export const userSlice = createSlice({
             state.errors.formErrors = {}
             state.status.Form = "idle"
         },
-        setProfile: (state, action) => {
+
+        setProfile: (state, action) => {    // Set Profile Image
             state.data.profileImage = action?.payload
         },
-        removeUserFormErrors: (state) => {
+        removeUserFormErrors: (state) => {  // Clear All Form Errors - Mainly Used when Switching between Login/Register
             state.errors.formErrors = {}
         },
-        formFulfilled: (state) => {
+        formFulfilled: (state) => {        // Form Process Completed
             state.status.Form = "completed"
             state.errors.formErrors = {}
         },
         formError: (state, action) => {
             state.status.Form = "rejected"
+
+            // Set Validation or Message Errors recieved by the Server
             state.errors.formErrors = action?.payload.formErrors
 
         },
         formServerError: (state) => {
             state.status.Form = "rejected"
+            // When Internal Server Error - Display Following Message 
             state.errors.formErrors = { main: "Something Went Wrong, Please Try Again" }
         },
         loginUser: (state, action) => {
@@ -82,7 +87,6 @@ export const userSlice = createSlice({
             state.data.profileImage = action.payload?.profileImage
             state.data.id = action.payload?.userId
             state.status.userLogin = "completed"
-            // state.data.emailValidated = action.payload?.emailValidated
         },
         setUserId: (state, action) => {
             state.data.id = action.payload
@@ -92,26 +96,33 @@ export const userSlice = createSlice({
             state.data.id = action?.payload?.id
             state.data.validation.validated = false
         },
+
+        // Email 
         emailPending: (state) => {
             state.status.emailValidation = "pending"
         },
         setValidation: (state, action) => {
-            console.log(action.payload)
             state.data.validation.validated = false
+            // set Timer for Next Email Validation Request 
             state.data.validation.nextValidation = action.payload
             state.status.emailValidation = "completed"
         },
         alreadyValidated: (state) => {
+            // Already Email Validated
             state.validation.validated = true
             state.validation.nextValidation = null
             state.status.emailValidation = "completed"
         },
         emailError: (state) => {
+            // Error Sending Email
             state.validation.validated = false
             state.validation.nextValidation = null
             state.status.emailValidation = "rejected"
         },
+
+        // User Setup
         setStage: (state, action) => {
+            // Set User Profile Setup Stage (initial is 1)
             state.data.setupStage = action.payload
         },
         setupPending: (state) => {
@@ -140,6 +151,8 @@ export const userSlice = createSlice({
         failedToLoadProfile: (state) => {
             state.errors.accountDetails = "Something Went Wrong, Please Try Again"
         },
+
+        // Change Password
         removePasswordErrors: (state) => {
             state.errors.passwordChange = initialState.errors.passwordChange
         }
@@ -152,6 +165,7 @@ export const userSlice = createSlice({
             })
             .addCase(checkUserAsync.fulfilled, (state, action) => {
                 state.status.userLogin = 'idle';
+                // Set User Data to State (if Present)
                 if (action?.payload) {
                     state.data.login = true
                     state.data.profileImage = action.payload?.profileImage
@@ -159,9 +173,11 @@ export const userSlice = createSlice({
                 }
             })
             .addCase(checkUserAsync.rejected, (state) => {
+                // User Not Logged In
                 state.status.userLogin = 'idle';
                 state.data = initialState.data
             })
+
             // lOGOUT USER
             .addCase(logoutUserAsync.pending, (state) => {
                 state.status.userLogin = 'pending';
@@ -170,16 +186,18 @@ export const userSlice = createSlice({
                 state.status.userLogin = 'idle';
                 state.data = initialState.data
             })
+
             // lOGIN USER
             .addCase(loginUserAsync.pending, (state) => {
                 state.status.Form = "pending"
             })
+
             // Register USER
             .addCase(registerUserAsync.pending, (state) => {
                 state.status.Form = "pending"
             })
 
-            // Account
+            // Account 
             .addCase(showUserProfileData.pending, (state) => {
                 state.status.accountDetails = "pending"
             })
@@ -188,7 +206,7 @@ export const userSlice = createSlice({
             })
             .addCase(showUserProfileData.fulfilled, (state, action) => {
                 state.status.accountDetails = "completed"
-                state.data.accountDetails = action?.payload?.data
+                state.data.accountDetails = action?.payload?.data // Set Account Details (recieved from server)
             })
 
             // Password Change
@@ -198,7 +216,7 @@ export const userSlice = createSlice({
             })
             .addCase(changeUserPasswordAsync.fulfilled, (state) => {
                 state.status.passwordChange = "completed"
-                state.errors.passwordChange = initialState.errors.passwordChange
+                state.errors.passwordChange = initialState.errors.passwordChange // Clear Errors
             })
             .addCase(changeUserPasswordAsync.rejected, (state, action) => {
                 state.status.passwordChange = "rejected"
@@ -211,9 +229,21 @@ export const userSlice = createSlice({
                     }
                 }
             })
+
+            // Email
+            .addCase(sendEmail.rejected, (state) => {
+                state.status.emailValidation = "rejected"
+                state.status.Form = "rejected"
+            })
+
     }
 
 
 })
-export const { authCheck, loginUser, registerUser, setUserId, removeUserFormErrors, setProfile, formFulfilled, formError, formServerError, setValidation, alreadyValidated, emailPending, emailError, resetFormState, resetState, setStage, serverFailedSetup, setupPending, setupValidationFailed, setupSuccess, failedToLoadProfile, removePasswordErrors } = userSlice.actions;
+export const { authCheck, loginUser, registerUser, setUserId,
+    removeUserFormErrors, setProfile, formFulfilled, formError,
+    formServerError, setValidation, alreadyValidated, emailPending,
+    emailError, resetFormState, resetState, setStage, serverFailedSetup,
+    setupPending, setupValidationFailed, setupSuccess, failedToLoadProfile,
+    removePasswordErrors } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,8 +1,8 @@
 import cloudinary from "../Utility/cloudinary.js";
+
+// This Function Deleted Blog Images When a blog is deleted
 const deleteBlogImage = async (fileUrl) => {
-    // const filename = fileUrl.split("/").slice(-1)[0]
     const filename = fileUrl.split("/").slice(-1)[0].split(".")[0]
-    console.log(filename)
     cloudinary.v2.uploader.destroy(filename, (error, result) => {
         if (error) {
             console.log("Failed to Delete image")
@@ -10,8 +10,7 @@ const deleteBlogImage = async (fileUrl) => {
             return false
         }
         if (result){
-            console.log("File Deleted")
-            console.log(result)
+            // Deleted File
             return true
         }
     });

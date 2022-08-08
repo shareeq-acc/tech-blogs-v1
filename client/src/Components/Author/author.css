@@ -34,7 +34,7 @@
     text-transform: capitalize !important;
     margin-bottom: 0;
     text-decoration: none;
-    color: black;
+    color: black !important;
     font-size: 1.4rem;
     font-weight: 700;
      font-family: 'Quicksand', sans-serif;

@@ -1,0 +1,46 @@
+.comment-container {
+    margin-bottom: 2rem;
+}
+
+.reply-container {
+    margin-left: 10% !important;
+    position: relative;
+}
+
+.reply-container>.comment>.comment-content {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.reply-container>.comment>.blog-comment-main>.comment-original-author{
+    font-size: 0.8rem;
+}
+
+.reply-container>.publish-comment {
+    margin-bottom: 0;
+}
+
+.reply-container>.publish-comment>.blog-publish-comment-main>.comment-btn-container>button {
+    font-size: 0.9rem;
+}
+
+.reply-container>.comment>* {
+    font-size: 0.9rem;
+}
+
+.reply-loader {
+    border: 0.5rem solid #f3f3f3;
+    border-top: 0.5rem solid #555;
+    width: 4rem;
+    height: 4rem;
+}
+
+@media screen and (max-width:576px) {
+    .reply-container>.publish-comment>.blog-publish-comment-main>.comment-btn-container {
+        margin-top: 0.5rem;
+    }
+
+    .reply-container>.publish-comment>.blog-publish-comment-main>.comment-btn-container>button {
+        font-size: 0.75rem !important;
+    }
+}

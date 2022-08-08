@@ -5,12 +5,14 @@ import "./blog-form.css";
 import Button from "../Button/Button.js";
 import Loader from "../Loader/Loader.js"
 import { addBlogFormError, removeBlogFormError } from "../../Redux-Toolkit/features/Blogs/blogsSlice";
+import { categtories } from "../../data/blogCategories";
 const BlogForm = ({ title, onSubmit, action, blog }) => {
   const initialData = {
     title: "",
     description: "",
     content: "",
-    category: "pc",
+    category: "hardware",
+    subCategory: "general",
     otherCategory: "",
     file: null,
   };
@@ -26,7 +28,6 @@ const BlogForm = ({ title, onSubmit, action, blog }) => {
   const user = useSelector(state => state.user.data)
 
   useEffect(() => {
-    console.log(blog)
     if (action === "update" && blog) {
       // Set initial data for updating blog
       setFileSelection(false);
@@ -35,19 +36,21 @@ const BlogForm = ({ title, onSubmit, action, blog }) => {
         description: blog?.description,
         content: blog?.content,
         category: blog?.category,
+        subCategory: blog?.subCategory,
         otherCategory: blog?.otherCategory,
         file: null,
       });
       setTags(blog.tags[0].split(","));
     }
     dispatch(removeBlogFormError())
-    // eslint-disable-next-line
   }, [blog, dispatch, user]);
 
   const handleFormChange = (e) => {
     setBlogFormData({ ...blogFormData, [e.target.name]: e.target.value });
   };
+  
   const addTags = (e) => {
+    // Check if Enter is Pressed
     if (e.key === "Enter") {
       // Validating Tags
       e.preventDefault();
@@ -84,14 +87,29 @@ const BlogForm = ({ title, onSubmit, action, blog }) => {
   };
 
   // Displaying The input field when other option is selected
+  const setMainCategory = (e) => {
+    setShowOtherInput(false);
+    if(e.target.value === "laptop"){ // If Laptop is Chosen that Show Input Field
+      setShowOtherInput(true)
+    }
+    setBlogFormData({
+      ...blogFormData,
+      category: e.target.value,
+      // When a Category is Changed, Update the Sub Category to the First SubCategory of the Category Chosen 
+      subCategory: e.target.value === "software" ? "" : categtories[e.target.value][0].toLowerCase(),  // If Category Chosen is Software then, set SubCategory to ""
+      otherCategory: "",
+    });
+   
+  }
   const checkSelectedValue = (e) => {
     if (e.target.value === "other") {
+      // If SubCategory Value is Other, Show Input Field
       setShowOtherInput(true);
-      setBlogFormData({ ...blogFormData, category: "other" });
+      setBlogFormData({ ...blogFormData, subCategory: "other" });
     } else {
       setBlogFormData({
         ...blogFormData,
-        category: e.target.value,
+        subCategory: e.target.value,
         otherCategory: "",
       });
       setShowOtherInput(false);
@@ -102,7 +120,7 @@ const BlogForm = ({ title, onSubmit, action, blog }) => {
     e.preventDefault();
     const formData = new FormData();
     if (action === "update") {
-      // Appending File in FormData only when a New File is selected
+      // Appending File in FormData only when a New File is selected While Component has an Update Action
       if (fileSelection && file) {
         formData.append("file", file);
       }
@@ -115,6 +133,7 @@ const BlogForm = ({ title, onSubmit, action, blog }) => {
     formData.append("tags", tags);
     formData.append("category", blogFormData.category);
     formData.append("otherCategory", blogFormData.otherCategory);
+    formData.append("subCategory", blogFormData.subCategory);
     onSubmit(formData);
   };
   return (
@@ -135,12 +154,13 @@ const BlogForm = ({ title, onSubmit, action, blog }) => {
       <textarea
         name="description"
         rows="3"
-        // cols="50"
         className={`blog-form-description blog-input ${error?.formError?.description ? "blog-input-warning" : ""}`}
         placeholder="Enter Short Blog Description"
         onChange={handleFormChange}
         value={blogFormData.description}
       ></textarea>
+
+      {/* Markdown div */}
       <div className={`markdown-wrap ${blogFormData?.content?.length > 0 ? "" : "hide-markdown"}`}>
         <ReactMarkdown className="markdown">
           {blogFormData.content}
@@ -149,12 +169,13 @@ const BlogForm = ({ title, onSubmit, action, blog }) => {
       <textarea
         name="content"
         rows="10"
-        // cols="50"
         className={`blog-form-description blog-input ${error?.formError?.content ? "blog-input-warning" : ""}`}
         placeholder="Enter Blog Markdown"
         onChange={handleFormChange}
         value={blogFormData.content}
       ></textarea>
+
+      {/* tags */}
       <div className="tags-wrap">
         <div className={`tags-wrapper ${tags?.length > 0 ? "tags-padding" : "zero-padding"}`}>
           {tags.map((tag, index) => (
@@ -179,21 +200,32 @@ const BlogForm = ({ title, onSubmit, action, blog }) => {
           <select
             name="category"
             className="category-selection"
-            onChange={checkSelectedValue}
+            onChange={setMainCategory}
             value={blogFormData.category}
-          >
-            <option value="pc">PC</option>
-            <option value="laptop">Laptop</option>
-            <option value="mobile">Mobile</option>
-            <option value="software">Software</option>
-            <option value="hardware">Hardware</option>
-            <option value="other">other</option>
+            // Categories 
+          >{
+              categtories.all.map((category, index) => {
+                return <option key={index} value={category.toLowerCase()}>{category}</option>
+              })
+            }
           </select>
+          {/* SubCategory Based on the Category Selected */}
+          {blogFormData.category !== categtories.noSubCategory.toLowerCase() && <select
+            name="subCategory"
+            className="category-selection sub-category"
+            onChange={checkSelectedValue}
+            value={blogFormData.subCategory}
+          >
+            {/* Not Show option when a category has no Sub Category */}
+            {categtories[blogFormData.category].map((category, index) => {
+              return <option key={index} value={category.toLowerCase()}>{category}</option>
+            })}
+          </select>}
           {showOthersInput && (
             <input
               className={`other-category-input blog-input ${error?.content?.otherCategory ? "blog-input-warning" : ""}`}
               type="text"
-              placeholder="Enter Category"
+              placeholder={blogFormData.category === "laptop" ? "Enter Brand (Optional)" : "Enter Blog Category"}
               name="otherCategory"
               onChange={handleFormChange}
               value={blogFormData.otherCategory}

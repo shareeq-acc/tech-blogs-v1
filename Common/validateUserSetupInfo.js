@@ -1,5 +1,6 @@
+// This Function Manually Validates Setup Fiedls
 const validateUserInfo = ({ expertise, description, file }) => {
-    // Presence Chack
+    // Presence Check
     if (!expertise || expertise === "") {
         return {
             error: true,

@@ -48,9 +48,6 @@ if (process.env.NODE_ENV === "production") {
 }
 // --------------------------deployment------------------------------
 
-
-// Routes
 app.listen(PORT, () => {
-  console.log("Update 2")
   console.log(`Server is Running on Port ${PORT}`);
 });

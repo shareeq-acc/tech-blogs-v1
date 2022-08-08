@@ -9,9 +9,6 @@
     display: flex;
     margin-top: 0.3rem;
 }
-.action-date{
-    margin-right: 5%;
-}
 .blog-action-icon{
     color: var(--primary-black);
     margin-left: 1rem;

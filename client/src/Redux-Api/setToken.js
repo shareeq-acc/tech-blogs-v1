@@ -1,5 +1,6 @@
 import axios from "axios"
 
+// Sets the JWT Token to Auth Header
 const setToken = (token) => {
     if (token) {
         localStorage.setItem("token", token)

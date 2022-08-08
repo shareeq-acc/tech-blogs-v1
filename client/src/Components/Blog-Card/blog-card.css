@@ -19,14 +19,12 @@
 .blog-link {
     flex-basis: 32% !important;
     margin-right: 1%;
-    box-shadow: var(--primary-card-shadow);
+    box-shadow: var(--primary-card-shadow) !important;
     margin-bottom: 1rem;
     overflow: hidden;
+    padding: 0 0.25rem
 }
 
-.blog-content-wrap {
-    padding: 0.25rem 0.75rem;
-}
 
 @media screen and (max-width:1130px) {
     .blog-img {

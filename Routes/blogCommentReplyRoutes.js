@@ -5,21 +5,25 @@ import {
   deleteReply,
   updateReply,
   likeReply,
+  getCommentReplies,
 } from "../Controller/blogCommentReplyController.js";
 import authentication from "../Middleware/Auth.js";
 const router = express.Router();
 
-router.get("/", getReplies);
 
-// Add a New Reply to a Comment
+
+// Get Comment Replies
+router.get("/:commentId", getCommentReplies);
+
+// Add a New Reply to a Comment -  Requires Auth
 router.post("/create/:commentId", authentication, addReply);
 
-// Delete a Reply
+// Delete a Reply -  Requires Auth
 router.delete("/delete/:replyId", authentication, deleteReply);
 
-// Update a Comment
-router.put("/update/:id", authentication, updateReply);
+// Update a Comment Reply - Requires Auth
+router.put("/update/:replyId", authentication, updateReply);
 
-// Like a Blog
+// Like a Comment Reply - Requires Auth
 router.put("/like/:replyId", authentication, likeReply);
 export default router;

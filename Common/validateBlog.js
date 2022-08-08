@@ -1,9 +1,7 @@
 import { isAlphaNumeric, onlyLetters } from "./stringValidation.js";
 
-
+// This Function Manually Validates Blog Fields
 export const validateBlog = (blog) => {
-  //   Check all the fields
-  // console.log(blog);
   if (
     !blog.title ||
     !blog.description ||

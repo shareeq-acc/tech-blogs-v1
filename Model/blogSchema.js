@@ -29,12 +29,18 @@ const BlogSchema = new Schema({
     required: [true, "Please Select Blog Category"],
     trim: true,
     minlength: [2, "Blog Category Should be atleast 2 Characters"],
-    maxlength: [10, "Blog Category Should not be more than 10 Characters"],
+    maxlength: [20, "Blog Category Should not be more than 20 Characters"],
+  },
+  subCategory: {
+    type: String,
+    trim: true,
+    minlength: [2, "Blog Sub-Category Should be atleast 2 Characters"],
+    maxlength: [20, "Blog Sub-Category Should not be more than 20 Characters"],
   },
   otherCategory: {
     type: String,
     trim: true,
-    maxlength: [10, "Blog Category Should not be more than 10 Characters"],
+    maxlength: [20, "Blog Category Should not be more than 20 Characters"],
   },
   tags: {
     type: [String],
@@ -42,14 +48,6 @@ const BlogSchema = new Schema({
     maxlength: [10, "Tags Should be not be more than 10 Characters"],
     trim: true,
   },
-  // tags: [
-  //   {
-  //     type: String,
-  //     minlength: [3, "Tags Should be atleast 3 Characters"],
-  //     maxlength: [10, "Tags Should be not be more than 10 Characters"],
-  //     trim: true,
-  //   },
-  // ],
   imageUrl: {
     type: String,
     minlength: [59, "Invalid Url"],
@@ -61,17 +59,6 @@ const BlogSchema = new Schema({
     ref: "User",
     required: [true, "Please Enter Blog Creator ID"],
   },
-  // likes: [
-  //   {
-  //     type: mongoose.SchemaTypes.ObjectId,
-  //     ref: "User",
-  //     maxlength: [15, "User ID is invalid"],
-  //     trim: true,
-  //     default: () => {
-  //       return null;
-  //     },
-  //   },
-  // ],
   likes: {
     type: [mongoose.SchemaTypes.ObjectId],
     ref: "User",
@@ -81,6 +68,9 @@ const BlogSchema = new Schema({
     default: () => {
       return null;
     },
+  },
+  likesCount: {
+    type: Number,
   },
   comments: {
     type: [mongoose.SchemaTypes.ObjectId],
@@ -92,14 +82,6 @@ const BlogSchema = new Schema({
       return null;
     },
   },
-
-  // comments: [
-  //   {
-  //     type: mongoose.SchemaTypes.ObjectId,
-  //     ref: "BlogComments",
-  //     maxlength: [12, "Invalid ID"],
-  //   },
-  // ],
   createdAt: {
     type: Date,
     default: Date.now,
@@ -107,14 +89,12 @@ const BlogSchema = new Schema({
   },
   updatedAt: {
     type: Date,
-    default: Date.now,
     maxlength: [100, "Date cannot not be more than 100 Characters"],
   },
 });
 
 BlogSchema.pre("findOneAndUpdate", function (next) {
   this.options.runValidators = true;
-  this.updatedAt = Date.now();
   next();
 });
 

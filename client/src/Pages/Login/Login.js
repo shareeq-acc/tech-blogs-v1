@@ -20,6 +20,7 @@ const Login = () => {
     <div>
       <Form title={"Login To Your Account"} method={"login"} />
       {formStatus === "pending" && <Loader/>}
+      {/* Email Validation  Modal */}
       {formStatus === "completed" && !validation.validated && validation.nextValidation && <VerificationModal />}
     </div>
   );

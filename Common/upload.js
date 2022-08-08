@@ -1,5 +1,7 @@
 import cloudinary from "../Utility/cloudinary.js";
 import destroyFiles from "./removeImages.js";
+
+// This Function Uploads File to Cloudinary (3rd Party Cloud Storage)
 const uploadFile = async (filePath, uploadPreset) => {
   try {
     const uploadResponse = await cloudinary.uploader.upload(filePath, {

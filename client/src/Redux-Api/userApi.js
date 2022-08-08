@@ -1,8 +1,6 @@
 import axiosPrivate from "../Api/axios/axiosInterceptors";
 import axiosPublic from "../Api/axios/axios";
 
-
-
 export const auth = async () => {
     return await axiosPrivate.post(`/auth`, {});
 };

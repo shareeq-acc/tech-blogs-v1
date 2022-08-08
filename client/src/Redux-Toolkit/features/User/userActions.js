@@ -1,94 +1,103 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { login, register, logout, auth, confirmationEmail, activateAccount, setupUser, getUser, changePass } from "../../../Redux-Api/userApi";
 import { toast } from "react-toastify";
-
 import setToken from "../../../Redux-Api/setToken";
 import { formServerError, formError, loginUser, formFulfilled, registerUser, setValidation, alreadyValidated, serverFailedSetup, setupPending, setupValidationFailed, setProfile, emailPending, setUserId, emailError, failedToLoadProfile } from "./userSlice";
 
+// User Login
 export const loginUserAsync = createAsyncThunk(
     'user/login',
     async ({ loginDetails, navigate }, thunkAPI) => {
         try {
             const response = await login(loginDetails)
+            // Set Token if Login Successfull
             setToken(response.data?.token)
             thunkAPI.dispatch(loginUser(response.data))
+            // Form Action Completed
             thunkAPI.dispatch(formFulfilled())
-            // console.log(response.data)
+            // If User Setup is not completed(false) redirect to Setup
             if (response.data.setup === false) {
                 navigate("/user/account-setup")
             } else {
+                // Redirect to Home Page
                 navigate("/")
             }
         } catch (error) {
-            // console.log(error?.response.data)
             if (error?.response?.data) {
+                // Form Validation Errors
                 if (error.response.data?.formErrors) {
                     thunkAPI.dispatch(formError(error.response.data))
                     return
                 }
+                // If User's Email is Not validated
                 if (error.response.data?.validated === false) {
-                    thunkAPI.dispatch(setUserId(error.response.data?.userId))
-                    thunkAPI.dispatch(sendEmail(error.response.data?.userId))
+                    thunkAPI.dispatch(setUserId(error.response.data?.userId)) // Set User Id to State
+                    thunkAPI.dispatch(sendEmail(error.response.data?.userId))  // Send Email
                     return
                 }
             } else {
+                // Internal Server Error
                 thunkAPI.dispatch(formServerError())
             }
         }
     }
 );
+
+// User Register
 export const registerUserAsync = createAsyncThunk(
     'user/register',
-    async ({ userDetails, navigate }, thunkAPI) => {
+    async ({ userDetails }, thunkAPI) => {
         try {
             const response = await register(userDetails)
-            // console.log(response.data)
             thunkAPI.dispatch(registerUser(response.data))
-            const verificationEmail = confirmationEmail(response?.data?.id)
-            toast.promise(
-                verificationEmail,
-                {
-                    pending: 'Sending Email',
-                    success: 'Successfully Sent Email',
-                    error: 'Failed to Send Email'
-                }
-            )
+
+            // Form Action Completed
             thunkAPI.dispatch(formFulfilled())
-            thunkAPI.dispatch(setValidation(verificationEmail?.data?.nextValidation))
+
+            // Send Confirmation Email
+            thunkAPI.dispatch(sendEmail(response?.data?.id))
+
+            // Set Next Validation Timer
+            // thunkAPI.dispatch(setValidation(verificationEmail?.data?.nextValidation))
         } catch (error) {
-            // console.log(error.response.data)
             if (error?.response?.data) {
+                // Validation Errors
                 if (error.response.data?.formErrors) {
                     thunkAPI.dispatch(formError(error.response.data))
                     return
                 }
             } else {
+                // Internal Server Error
                 thunkAPI.dispatch(formServerError())
             }
         }
     }
 );
+
+// User Logout
 export const logoutUserAsync = createAsyncThunk(
     'user/logout',
     async (navigate, { rejectWithValue }) => {
         try {
             const response = await logout()
             if (response?.response) {
-                // There is an error from the Server but does not go to the catch Blog
-                // It May be a 404 or any other Error
+                // There is an error from the Server but does not go to the catch Block
+                // It is mostly a  404 
                 // the Response from the Server is in the response.response.data
                 return rejectWithValue(response.response.data)
             }
+            // Remove AccessToken
             localStorage.removeItem("token")
+            // Redirect to Login
             navigate("/login")
             return response.data
         } catch (error) {
-            // console.log(error.response.data)
             return rejectWithValue(error.response.data)
         }
     }
 );
 
+// Check for User
 export const checkUserAsync = createAsyncThunk(
     'user/check-auth',
     async (_, { rejectWithValue }) => {
@@ -96,42 +105,41 @@ export const checkUserAsync = createAsyncThunk(
             const response = await auth()
             return response.data
         } catch (error) {
-            // console.log(error.response.data)
             return rejectWithValue(error.response.data)
         }
     }
 );
 
+// Send Verification Email
 export const sendEmail = createAsyncThunk(
     'user/send/email',
     async (id, thunkAPI) => {
         try {
             thunkAPI.dispatch(emailPending())
+            toast.loading("Sending Email")
             const response = await confirmationEmail(id)
-            toast.promise(
-                response,
-                {
-                    pending: 'Sending Email',
-                    success: 'Successfully Sent Email',
-                    error: 'Failed to Send Email'
-                }
-            )
-            console.log(response.data)
+
+            // Set Timer for Next Validation Request
             thunkAPI.dispatch(setValidation(response?.data?.nextValidation))
+            // Form Process Completed
             thunkAPI.dispatch(formFulfilled())
+            toast.dismiss()
+            toast.success("Email Sent")
         } catch (error) {
-            // console.log(error.response.data)
-            if (error?.response?.data?.alreadyValidated) {
+            toast.dismiss()
+            toast.error("Failed To Send Email")
+            if (error?.response?.data?.alreadyValidated) {   // User Already Validated
                 toast.info("You Are Already Validated")
                 thunkAPI.dispatch(alreadyValidated())
             }
-            if (!error?.response || error?.response?.data?.serverError) {
+            if (!error?.response || error?.response?.data?.serverError) { // Internal Server Error
                 thunkAPI.dispatch(emailError())
             }
         }
     }
 );
 
+// Email Confirmation
 export const emailConfirmation = createAsyncThunk(
     'user/activate',
     async ({ token, navigate }, thunkAPI) => {
@@ -139,7 +147,6 @@ export const emailConfirmation = createAsyncThunk(
             const response = await activateAccount(token)
             thunkAPI.dispatch(alreadyValidated())
         } catch (error) {
-            // console.log(error.response.data)
             if (error?.response?.data?.invalidRequest) {
                 navigate("/login")
             }
@@ -149,12 +156,16 @@ export const emailConfirmation = createAsyncThunk(
         }
     }
 );
+
+// User Setup data
 export const storeSetupInfo = createAsyncThunk(
     'user/setup',
     async ({ data, navigate }, thunkAPI) => {
         try {
             thunkAPI.dispatch(setupPending())
             const response = await setupUser(data)
+
+            // If User Uploaded a Profile Image - Set to State
             if (response?.data?.profileImage) {
                 thunkAPI.dispatch(setProfile(response.data.profileImage))
             }
@@ -164,14 +175,17 @@ export const storeSetupInfo = createAsyncThunk(
             // console.log(error.response.data)
             if (error?.response?.data) {
                 if (!error.response || error.response.data?.serverError) {
+                    // Internal Server Error
                     thunkAPI.dispatch(serverFailedSetup())
                     return
                 }
                 if (error.response.data?.login === false) {
+                    // User Not Logged Inn
                     navigate("/login")
                     return
                 }
                 if (error.response.data?.formError) {
+                    // Validation Errors
                     thunkAPI.dispatch(setupValidationFailed(error.response.data))
                     return
                 }
@@ -180,6 +194,7 @@ export const storeSetupInfo = createAsyncThunk(
     }
 );
 
+// Set User Data to State- For Profile page
 export const showUserProfileData = createAsyncThunk(
     'user/setup',
     async ({ id, navigate }, thunkAPI) => {
@@ -187,8 +202,8 @@ export const showUserProfileData = createAsyncThunk(
             const response = await getUser(id)
             return response.data
         } catch (error) {
-            // console.log(error?.response?.data)
             if (error?.response?.data?.permission === false) {
+                // Unauthorized User - Logout Current User
                 thunkAPI.dispatch(logoutUserAsync(navigate))
                 return
             }
@@ -200,19 +215,22 @@ export const showUserProfileData = createAsyncThunk(
         }
     }
 );
+
+// Change User Password
 export const changeUserPasswordAsync = createAsyncThunk(
     'user/change-password',
     async ({ id, data, navigate, setPassValues, initialValues }, thunkAPI) => {
         try {
             const response = await changePass(id, data)
-            // console.log(response.data)
+            // Reset Password Field Values to initial (if success)
             setPassValues(initialValues)
             toast.success("Successfully Updated Password")
         } catch (error) {
-            // console.log(error?.response?.data)
             if (error?.response?.data?.permission === false) {
+                // Unauthorized User - Logout Current User
                 thunkAPI.dispatch(logoutUserAsync(navigate))
             }
+            // Internal Server Error
             return thunkAPI.rejectWithValue(error?.response?.data)
         }
     }

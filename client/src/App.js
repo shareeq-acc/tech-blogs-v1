@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
@@ -24,11 +23,13 @@ import NotFound from "./Pages/NotFound/NotFound";
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
+    // Check if Token is Present
     const token = localStorage.getItem("token")
     if (token) {
-      console.log("Auth Check")
+      // If Token is Present then Load User Details - Complete Initial Auth Check
       dispatch(checkUserAsync())
     }
+    // If No Token is present complete Auth Check - Auth Check Completed
     dispatch(authCheck())
   }, [dispatch])
 
@@ -37,14 +38,13 @@ function App() {
       <Navbar />
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={2000}
         hideProgressBar={false}
-        newestOnTop={false}
+        newestOnTop={true}
         closeOnClick
         rtl={false}
         pauseOnFocusLoss
         draggable={false}
-        pauseOnHover
       />
       <ToastContainer />
 
@@ -65,6 +65,7 @@ function App() {
           <Route path="/user/account-setup" element={<Setup />} />
         </Route>
 
+        {/* Routes that do not match */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

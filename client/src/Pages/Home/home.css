@@ -29,6 +29,11 @@
         flex-basis: 49%;
     }
 }
+@media screen and (max-width:576px) {
+    .blog-container{
+        justify-content: flex-start;
+    }
+}
 
 @media screen and (max-width:510px) {
 

@@ -9,8 +9,9 @@ const Register = () => {
   return (
     <div className="register-page">
       <Form title={"Create an Account"} method={"register"} />
-      {/* <VerificationModal /> */}
       {formStatus === "pending" && <Loader />}
+
+      {/* Email Verification Modal } */}
       {formStatus === "completed" && !validation.validated && validation.nextValidation && <VerificationModal />}
     </div>
   );

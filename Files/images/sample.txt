@@ -1,4 +1,0 @@
-This is just a dummy file in the Images Folder where all the images are stores,
-Heroku ignores the Empty Folders so This Dummy Files stops Heroku from ignoring this Folder
-
-Another Alternate Method is to create a Folder Ehen the Server Runs

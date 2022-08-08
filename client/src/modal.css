@@ -18,7 +18,7 @@
 .modal-wrap {
   position: relative;
   background: var(--primary-light-grey);
-  padding: 4rem;
+  padding: 3rem;
   border-radius: 7px;
   display: flex;
   flex-direction: column;
@@ -58,4 +58,29 @@
 
 .modal-icon-close {
   font-size: 1.4rem;
+}
+
+@media screen and (max-width:576px) {
+  .modal-text {
+    max-width: 40ch;
+  }
+
+  .modal-wrap {
+    padding: 2rem;
+  }
+  .modal-icon{
+    font-size: 3rem;
+  }
+}
+
+@media screen and (max-width:400px) {
+  .modal-text {
+    max-width: 45ch;
+    font-size: 0.9rem !important;
+  }
+
+  .modal-wrap {
+    padding: 1rem;
+  }
+
 }

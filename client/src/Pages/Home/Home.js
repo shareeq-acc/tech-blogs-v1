@@ -6,46 +6,48 @@ import BlogCard from "../../Components/Blog-Card/BlogCard";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogsAsync } from "../../Redux-Toolkit/features/Blogs/blogsActions";
 import Loader from "../../Components/Loader/Loader";
+import ErrorMessage from "../../Components/Error/ErrorMessage";
+import BlogsCategorySliders from "../../Containers/BlogsCategorySlider/BlogsCategorySliders";
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const blogs = useSelector(state => state.blogs.data.Blogs)
   const status = useSelector((state) => state.blogs.status.Blogs);
-  // const error = useSelector((state) => state.blogs.error.Blogs);
+  const mainBlog = useSelector(state => state.blogs.data.Blogs.mainBlog)
+  const blogs = useSelector((state) => state.blogs.data.Blogs.homeBlogs);
 
   useEffect(() => {
     dispatch(fetchBlogsAsync());
-    console.log(blogs)
   }, []);
 
   const RenderBlogs = () => {
     if (status === "rejected") {
+      // Server Error
       return (
-        <div className="no-content">
-          <p className="no-content-message">Something Went Wrong</p>
-        </div>
+        <ErrorMessage error={"Something Went Wrong"} />
       );
     }
-    if (blogs.length > 0 && status === "completed") {
+    if (blogs?.length > 0 && status === "completed") {
       return (
-        <div className="blog-container">
+        <div>
           {blogs.map((blog, index) => {
-            if (index !== 0) {
-              return <BlogCard blog={blog} key={index} />;
-            }
+            return <div className="blog-container" key={index}>
+              <BlogsCategorySliders data={blog} key={index} />
+            </div>
           })}
         </div>
       );
     }
   };
+
   return (
     <div className="home main-container">
-      {status === "pending" && <Loader/>}
-      {blogs.length > 0 && status === "completed" && (
-        <div className="main-highlighted-blog">
-          <MainCard blog={blogs[0]} key={0} />
+      {status === "pending" && <Loader />}
+      {
+        // Home Main BLog Card
+        status !== "pending" && mainBlog && <div className="main-highlighted-blog">
+          <MainCard blog={mainBlog[0]} key={0} />
         </div>
-      )}
+      }
       <RenderBlogs />
     </div>
   );

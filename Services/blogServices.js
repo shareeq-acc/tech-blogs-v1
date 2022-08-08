@@ -2,28 +2,60 @@ import Blog from "../Model/blogSchema.js";
 import formErrors from "../Common/formErrors.js";
 import mongoose from "mongoose";
 
+// This Function fetches Home Blogs based on Categories and Likes
 export const findHomeBlogs = async () => {
   try {
-    const blogs = await Blog.find().sort({ createdAt: -1 }).limit(6).populate(
+    const mainBlog = await Blog.find({}, "title description createdAt creator likes imageUrl").sort({ likesCount: -1 }).limit(1).populate(
       "creator",
       "fname lname imageUrl expertise"
     );
+
+    // Trending
+    const trendingBlogs = await Blog.find({}, "title description createdAt creator likes imageUrl").sort({ likesCount: -1 }).skip(1).limit(10)
+
+    // Hardware
+    const hardwareBlogs = await Blog.find({ category: "hardware" }, "title description createdAt creator likes imageUrl").sort({ likesCount: -1 }).limit(10)
+
+    // Consoles
+    const consoleBlogs = await Blog.find({ category: "consoles" }, "title description createdAt creator likes imageUrl").sort({ likesCount: -1 }).limit(10)
+
+    // Peripherals
+    const peripheralBlogs = await Blog.find({ category: "peripherals" }, "title description createdAt creator likes imageUrl").sort({ likesCount: -1 }).limit(10)
+
     return {
-      blogs: blogs,
       success: true,
+      mainBlog,
+      homeBlogsData: [
+        {
+          category: "Trending",
+          blogs: trendingBlogs,
+        },
+        {
+          category: "Hardware",
+          blogs: hardwareBlogs,
+        },
+        {
+          category: "Consoles",
+          blogs: consoleBlogs,
+        },
+        {
+          category: "Peripherals",
+          blogs: peripheralBlogs,
+        },
+      ]
     };
   } catch (error) {
     console.log(error.message);
     return {
       success: false,
-      error: true,
+      serverError: true
     };
   }
 };
 
+// This Function Fetches All Blogs by a particular user
 export const findBlogsByUser = async (userId) => {
   try {
-    // console.log("Searching");
     const blogs = await Blog.find({ creator: userId }).sort({
       createdAt: "desc",
     });
@@ -47,6 +79,8 @@ export const findBlogsByUser = async (userId) => {
     };
   }
 };
+
+// This Function get a Blog Based on the Id Provided
 export const findBlog = async (id) => {
   try {
     const checkID = mongoose.Types.ObjectId.isValid(id);
@@ -77,9 +111,9 @@ export const findBlog = async (id) => {
   }
 };
 
+// This Function Creates a New Blog
 export const createBlog = async (blogData) => {
   try {
-    // console.log(blogData)
     const blog = new Blog(blogData);
     await blog.save();
     return {
@@ -88,9 +122,10 @@ export const createBlog = async (blogData) => {
     };
   } catch (error) {
     console.log(error.message);
+    // Check for Validation Errors
     if (error.message.includes("Blog validation failed")) {
+      // Pass the Validation Error to formErrors function
       const errData = formErrors(Object.values(error.errors));
-      // console.log(errData)
       return {
         error: true,
         success: false,
@@ -105,19 +140,22 @@ export const createBlog = async (blogData) => {
   }
 };
 
+// This Function Removes a Blog Based on the Id Provided
 export const removeBlog = async (id) => {
   try {
     await Blog.findByIdAndRemove(id);
     return true;
   } catch (error) {
-    console.log(error.message);
-    throw new Error("Server Error");
+    return{
+      serverError:true
+    }
   }
 };
 
+// This Function Updates Blog
 export const blogUpdate = async (id, blog, noFile) => {
   try {
-    // console.log(id);
+    // If file is not present then update other provided fields only
     if (noFile) {
       await Blog.findOneAndUpdate(
         { _id: id },
@@ -126,12 +164,14 @@ export const blogUpdate = async (id, blog, noFile) => {
           description: blog.description,
           content: blog.content,
           category: blog.category,
+          subCategory: blog.subCategory,
           otherCategory: blog.otherCategory,
           tags: blog.tags,
           updatedAt: Date.now(),
         }
       );
     } else {
+        // If file is present then update other provided fields and file
       await Blog.findOneAndUpdate(
         { _id: id },
         {
@@ -152,6 +192,8 @@ export const blogUpdate = async (id, blog, noFile) => {
     };
   } catch (error) {
     console.log(error.message);
+
+    // Check for Validation Errors
     if (
       error.message.includes("Blog validation failed") ||
       error.message.includes("Validation failed")
@@ -161,30 +203,40 @@ export const blogUpdate = async (id, blog, noFile) => {
       return {
         error: true,
         formError: errData,
+        success:false
       };
     } else {
-      throw new Error("Server Error");
+      // Error while Updating
+      return{
+        serverError:true,
+        success:false
+      }
     }
   }
 };
 
-export const updateLikes = async (blogId, likes) => {
+// This function Updates User Likes
+export const updateLikes = async (blogId, likes, count) => {
   try {
-    await Blog.findOneAndUpdate({ id: blogId }, { likes: likes });
-    // console.log(newLikes);
+    await Blog.findOneAndUpdate({ _id: blogId }, { likes: likes, likesCount: count });
   } catch (error) {
-    console.log(error.message);
-    throw new Error("Server Error");
+    return{
+      success:false,
+      serverError:true
+    }
   }
 };
 
-export const updateComments = async (commentId, comments) => {
+// This Function Updates Comments on a Blog
+export const updateComments = async (blogId, comments) => {
   try {
-    // console.log(comments);
-    await Blog.findOneAndUpdate({ id: commentId }, { comments: comments });
+    await Blog.findOneAndUpdate({ _id: blogId }, { comments: comments });
     return true;
   } catch (error) {
     console.log(error.message);
-    throw new Error("Server Error");
+    return{
+      success:false,
+      serverError:true
+    }
   }
 };
