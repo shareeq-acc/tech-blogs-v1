@@ -257,9 +257,6 @@ export const createNewBlog = async (req, res) => {
         serverError: true,
       });
     }
-
-    console.log(fileUpload?.url)
-
     // Save the Blog and the Image Url to the Database
     const newBlog = await createBlog({
       title,
