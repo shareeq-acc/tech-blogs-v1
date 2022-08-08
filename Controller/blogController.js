@@ -188,7 +188,8 @@ export const createNewBlog = async (req, res) => {
 
     // File from Front-end
     const file = req.file;
-
+    console.log(file)
+    
     // If User Not Present
     if (!userId) {
       return res.status(401).json({

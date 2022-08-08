@@ -193,8 +193,7 @@ export const validateBlog = (blog) => {
 
     };
   }
-  // Validate File
-  // console.log(blog.file);
+  // Validate File;
   // Only Validate if File is Present e.g Creating a New Blog File Must be there hence noFile Parameter must be set to False
   // While Updating if file is Updated the, nofile must be Set to False, if File is not Updated then No File Must be Set to True
 
@@ -225,7 +224,6 @@ export const validateBlog = (blog) => {
       };
     }
   }
-  console.log("Completed Validation");
   return {
     error: false,
     success: true,

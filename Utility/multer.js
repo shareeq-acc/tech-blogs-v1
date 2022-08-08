@@ -2,20 +2,19 @@ import multer from "multer";
 import path from 'path';
 import fs from "fs"
 const __dirname = path.resolve();
-//Configuration for Multer
 
+//Configuration for Multer
 
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     // cb(null, "Files");
     const fileDirectory = path.join(__dirname, 'Files')
-    // console.log("Directory is ", __dirname)
-    // console.log("File Path is ", fileDirectory)
+    console.log(fileDirectory)
     fs.access(fileDirectory, (error) => {
       if (error) {
-        // console.log("Directory does not exist.")
+        console.log("Directory does not exist.")
       } else {
-        // console.log("Directory exists.")
+        console.log("Directory exists.")
       }
     })
     cb(null, fileDirectory);
