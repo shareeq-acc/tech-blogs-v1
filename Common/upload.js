@@ -9,7 +9,8 @@ const uploadFile = async (filePath, uploadPreset) => {
     const uploadResponse = await cloudinary.uploader.upload(filePath, {
       upload_preset: uploadPreset,
     });
-    // destroyFiles()
+    console.log(uploadResponse)
+    destroyFiles()
     return {
       error: false,
       success: true,
@@ -17,8 +18,10 @@ const uploadFile = async (filePath, uploadPreset) => {
       name: uploadResponse.original_filename,
     };
   } catch (error) {
+    console.log("Upload Error Block")
     console.log(error.message);
-    // destroyFiles()
+    console.log(error)
+    destroyFiles()
     return {
       error: true,
       serverError: true,
