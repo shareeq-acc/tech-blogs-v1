@@ -188,8 +188,7 @@ export const createNewBlog = async (req, res) => {
 
     // File from Front-end
     const file = req.file;
-    console.log(file)
-    
+
     // If User Not Present
     if (!userId) {
       return res.status(401).json({
@@ -252,11 +251,14 @@ export const createNewBlog = async (req, res) => {
     // Upload Blog Image to 3rd Part Cloud Storage (Cloudinary)
     const fileUpload = await uploadFile(file.path, process.env.BLOG_MAIN_IMAGE_UPLOAD_PRESET_CLOUDINARY);
     if (fileUpload.serverError) {
+      console.log("failed to upload")
       return res.status(500).json({
         success: false,
         serverError: true,
       });
     }
+
+    console.log(fileUpload?.url)
 
     // Save the Blog and the Image Url to the Database
     const newBlog = await createBlog({
