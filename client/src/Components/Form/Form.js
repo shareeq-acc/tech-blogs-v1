@@ -26,6 +26,7 @@ const Form = ({ title, method }) => {
   };
   const [formData, setFormData] = useState(initialData);
   const [showPassword, setShowPassword] = useState({ password: false, cpassword: false })
+
   useEffect(() => {
     dispatch(resetFormState())
     setShowPassword({
@@ -62,7 +63,7 @@ const Form = ({ title, method }) => {
     // Dispatching actions based on Register & Login State
     if (status !== "pending") {
       if (method === "register") {
-        dispatch(registerUserAsync({ userDetails: formData, navigate }));
+        dispatch(registerUserAsync({ userDetails: formData,  initialData, setFormData }));
       } else {
         const loginObj = {
           email: formData.email,

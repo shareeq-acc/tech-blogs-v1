@@ -17,7 +17,12 @@ const multerStorage = multer.diskStorage({
         console.log("Directory exists.")
       }
     })
+    const imagesDirector = path.join(__dirname, 'Files', "images")
+    fs.readdir(imagesDirector, (err, files) => {
+      console.log(files.length);
+    });
     cb(null, fileDirectory);
+
   },
   filename: (req, file, cb) => {
     const ext = file.mimetype.split("/")[1];

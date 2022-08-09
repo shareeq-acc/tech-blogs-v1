@@ -46,7 +46,7 @@ export const loginUserAsync = createAsyncThunk(
 // User Register
 export const registerUserAsync = createAsyncThunk(
     'user/register',
-    async ({ userDetails }, thunkAPI) => {
+    async ({ userDetails, initialData, setFormData }, thunkAPI) => {
         try {
             const response = await register(userDetails)
             thunkAPI.dispatch(registerUser(response.data))
@@ -54,11 +54,13 @@ export const registerUserAsync = createAsyncThunk(
             // Form Action Completed
             thunkAPI.dispatch(formFulfilled())
 
+            // Clear Form Fields on Success
+            setFormData(initialData)
+
             // Send Confirmation Email
             thunkAPI.dispatch(sendEmail(response?.data?.id))
 
-            // Set Next Validation Timer
-            // thunkAPI.dispatch(setValidation(verificationEmail?.data?.nextValidation))
+
         } catch (error) {
             if (error?.response?.data) {
                 // Validation Errors
