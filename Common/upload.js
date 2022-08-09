@@ -4,12 +4,9 @@ import destroyFiles from "./removeImages.js";
 // This Function Uploads File to Cloudinary (3rd Party Cloud Storage)
 const uploadFile = async (filePath, uploadPreset) => {
   try {
-    console.log("file path is ", filePath)
-    console.log("Preset", uploadPreset)
     const uploadResponse = await cloudinary.uploader.upload(filePath, {
       upload_preset: uploadPreset,
     });
-    console.log(uploadResponse)
     destroyFiles()
     return {
       error: false,
@@ -18,9 +15,7 @@ const uploadFile = async (filePath, uploadPreset) => {
       name: uploadResponse.original_filename,
     };
   } catch (error) {
-    console.log("Upload Error Block")
-    console.log(error.message);
-    console.log(error)
+    console.log("Error Uploading, Error: ",error.message);
     destroyFiles()
     return {
       error: true,

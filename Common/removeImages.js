@@ -8,7 +8,6 @@ const directory = "../Files/images";
 
 // This Function Removes The Files/Images from the server once they are uploaded to the 3rd Party Cloud Storage (even if there is an error uploading, since the image would be resent) 
 const destroyFiles = () => {
-  console.log("Destroying File")
   fs.readdir(path.join(__dirname, directory), (err, files) => {
     if(err){
       console.log("Error Destroying File")

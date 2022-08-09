@@ -3,7 +3,7 @@
 }
 .category-title{
     position: relative;
-    padding-left: 0.5rem;
+    padding-left: 0.75rem;
 }
 .category-title::before{
     content: "";

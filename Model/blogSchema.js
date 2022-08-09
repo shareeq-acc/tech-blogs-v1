@@ -15,14 +15,14 @@ const BlogSchema = new Schema({
     required: [true, "Please Enter Blog Description"],
     trim: true,
     minlength: [20, "Blog Description Should be atleast 20 Characters"],
-    maxlength: [140, "Blog Description Should not be more than 140 Characters"],
+    maxlength: [120, "Blog Description Should not be more than 120 Characters"],
   },
   content: {
     type: String,
     required: [true, "Please Enter Blog Content"],
     trim: true,
     minlength: [30, "Blog Content Should be atleast 30 Characters"],
-    maxlength: [5000, "Blog Content Should not be more than 5000 Characters"],
+    maxlength: [7500, "Blog Content Should not be more than 7500 Characters"],
   },
   category: {
     type: String,
@@ -45,7 +45,7 @@ const BlogSchema = new Schema({
   tags: {
     type: [String],
     minlength: [3, "Tags Should be atleast 3 Characters"],
-    maxlength: [10, "Tags Should be not be more than 10 Characters"],
+    maxlength: [15, "Tags Should be not be more than 15 Characters"],
     trim: true,
   },
   imageUrl: {

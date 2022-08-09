@@ -54,8 +54,8 @@ const BlogForm = ({ title, onSubmit, action, blog }) => {
     if (e.key === "Enter") {
       // Validating Tags
       e.preventDefault();
-      if (e.target.value.length > 10) {
-        dispatch(addBlogFormError({ message: "Tags cannot exceed 10 Characters", field: "tags" }));
+      if (e.target.value.length > 15) {
+        dispatch(addBlogFormError({ message: "Tags cannot exceed 15 Characters", field: "tags" }));
         return;
       }
       if (e.target.value.length < 3) {

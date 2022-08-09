@@ -87,6 +87,9 @@ a {
     color: var(--primary-orange) ;
 }
 
+li {
+    font-size: 1.05rem;
+}
 
 strong {
     border-bottom: 2px solid var(--primary-orange);

@@ -43,14 +43,14 @@ export const validateBlog = (blog) => {
     };
   }
   //   Validate Description
-  if (blog.description.length > 140) {
+  if (blog.description.length > 120) {
     return {
       error: true,
       success: false,
       serverError: false,
-      message: "Description Should not exceed 140 Characters",
+      message: "Description Should not exceed 120 Characters",
       form: {
-        description: "Description Should not exceed 140 Characters"
+        description: "Description Should not exceed 120 Characters"
       }
     };
   }
@@ -67,14 +67,14 @@ export const validateBlog = (blog) => {
     };
   }
   // Validate Content
-  if (blog.content.length > 5000) {
+  if (blog.content.length > 7500) {
     return {
       error: true,
       success: false,
       serverError: false,
-      message: "Blog Content Should not exceed 5000 Characters",
+      message: "Blog Content Should not exceed 7500 Characters",
       form: {
-        content: "Blog Content Should not exceed 5000 Characters"
+        content: "Blog Content Should not exceed 7500 Characters"
       }
     };
   }
@@ -118,15 +118,15 @@ export const validateBlog = (blog) => {
         }
       };
     }
-    if (tag.length > 10) {
+    if (tag.length > 15) {
       tagError = true;
       return {
         error: true,
         success: false,
         serverError: false,
-        message: "Tag Should not exceed 10 Characters",
+        message: "Tag Should not exceed 15 Characters",
         form: {
-          tags: "Tag Should not exceed 10 Characters"
+          tags: "Tag Should not exceed 15 Characters"
         }
       };
     }
@@ -193,10 +193,10 @@ export const validateBlog = (blog) => {
 
     };
   }
+
   // Validate File;
   // Only Validate if File is Present e.g Creating a New Blog File Must be there hence noFile Parameter must be set to False
   // While Updating if file is Updated the, nofile must be Set to False, if File is not Updated then No File Must be Set to True
-
   if (!blog.noFile) {
     if (
       blog.file.mimetype != "image/png" &&
