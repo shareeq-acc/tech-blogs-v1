@@ -51,3 +51,9 @@
     font-size: 1.5rem;
     color: black;
 }
+
+@media screen and (max-width:760px) {
+    .author-name{
+        font-size: 1.25rem !important;
+    }
+}

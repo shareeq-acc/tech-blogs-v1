@@ -377,7 +377,7 @@ export const blogSlice = createSlice({
             // Set States for Single Blog Fetch
             .addCase(fetchSingleBlogAsync.pending, (state) => {
                 state.data.comments = []
-                state.data.commentPagination = initialState.data.commentPagination // When Fetching a Blog, Reset Pagination for Comments etc.
+                state.data.commentPagination = initialState.data.commentPagination // When Fetching a Blog, Reset Pagination for Comments.
                 state.status.CurrentBlog = 'pending';
                 state.errors.CurrentBlog = null
             })
@@ -435,6 +435,7 @@ export const blogSlice = createSlice({
 
             // Load Comments
             .addCase(getCommentsAsync.fulfilled, (state, action) => {
+                console.log(action.payload)
                 // If Recieved Comments Array is not Empty
                 if (action?.payload?.comments?.length > 0) {
                     if (state.data?.comments?.length > 0) {
@@ -448,7 +449,9 @@ export const blogSlice = createSlice({
                     // If End is true than no more comments are to be loaded - Pagination End
                     state.data.commentPagination.end = true
                 }
-                state.data.commentPagination.start = action.payload?.nextStart
+                if(action.payload?.nextStart){
+                    state.data.commentPagination.start = action.payload.nextStart
+                }
 
                 state.status.comments = "completed"
             })

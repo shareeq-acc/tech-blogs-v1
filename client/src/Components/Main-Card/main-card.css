@@ -153,9 +153,11 @@
     }
 
     .short-description,
-    .author-name,
     .author-role {
         font-size: 0.9rem !important;
+    }
+    .author-name{
+        font-size: 0.9rem;
     }
 
     .short-description {
